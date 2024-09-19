@@ -149,39 +149,40 @@ function App() {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Text from Page {selectedPage}</h2>
+            <h2>{bookTitle}</h2>
             {isTextLoaded && (
               <>
                 {!isReading ? (
-                  <button onClick={startReading} className="ios-button">
-                    Start
-                  </button>
+                  <>
+                    <button onClick={startReading} className="ios-button">
+                      Start
+                    </button>
+                    <button onClick={() => setShowModal(false)} className="ios-button close-button">
+                      Close
+                    </button>
+                  </>
                 ) : (
-                  <button onClick={stopReading} className="ios-button">
-                    Stop
-                  </button>
+                  <>
+                    {textArray[currentWordIndex] && (
+                      <h1 className="word-display">{textArray[currentWordIndex]}</h1>
+                    )}
+                    <div className="range-container">
+                      <label htmlFor="speed-range">Speed: {speed} WPM</label>
+                      <input
+                        type="range"
+                        id="speed-range"
+                        min="50"
+                        max="400"
+                        value={speed}
+                        onChange={(e) => setSpeed(e.target.value)}
+                        className="speed-range"
+                      />
+                    </div>
+                    <button onClick={stopReading} className="ios-button">
+                      Stop
+                    </button>
+                  </>
                 )}
-                {isReading && textArray[currentWordIndex] && (
-                  <h1 className="word-display">{textArray[currentWordIndex]}</h1>
-                )}
-                <div className="range-container">
-                  <label htmlFor="speed-range">Speed: {speed} WPM</label>
-                  <input
-                    type="range"
-                    id="speed-range"
-                    min="50"
-                    max="400"
-                    value={speed}
-                    onChange={(e) => setSpeed(e.target.value)}
-                    className="speed-range"
-                  />
-                </div>
-                {/* Перемещаем кнопку закрытия в самый низ модального окна */}
-                <div className="close-button-container">
-                  <button onClick={() => setShowModal(false)} className="ios-button close-button">
-                    Close
-                  </button>
-                </div>
               </>
             )}
           </div>
