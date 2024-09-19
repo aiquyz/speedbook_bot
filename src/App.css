@@ -1,23 +1,29 @@
-/* App.css */
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  /* overflow: hidden; */
+  background-color: #0a0f0b;
+  color: #e0f5e9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background: linear-gradient(145deg, #0c1a12, #172623);
+  color: #e0f5e9;
 }
 
 .App-header {
-  background-color: #f7f7f7;
+  background-color: #0c1a12;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2);
+  color: #e0f5e9;
 }
 
 .App-main {
@@ -26,43 +32,51 @@ body, html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: #0a0f0b;
   padding: 20px;
 }
 
 .App-footer {
   padding: 20px;
-  background-color: #f7f7f7;
+  background-color: #0c1a12;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -4px 10px rgba(0, 255, 0, 0.2);
 }
 
 .pdf-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
-  width: 100%;
-  height: 100%;
+  background-color: #0a0f0b;
+  width: 80%; /* Установим ширину контейнера на 80% экрана */
+  max-width: 900px; /* Максимальная ширина */
+  height: 80vh; /* Высота 80% от высоты окна */
   padding: 20px;
   overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2); /* Добавим небольшую тень для акцента */
 }
 
 .react-pdf__Page {
-  max-width: 100%;
+  max-width: 100%; /* Ширина страницы не может превышать ширину контейнера */
+  max-height: 100%; /* Высота страницы не может превышать высоту контейнера */
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Сохраняем пропорции страницы при масштабировании */
+}
+
+.react-pdf__Page__canvas{
   max-height: 100%;
-  object-fit: contain;
 }
 
 /* Скрытие текстового слоя и слоя аннотаций */
 .react-pdf__Page__textContent {
-  display: none !important; /* Скрыть текстовый слой */
+  display: none !important;
 }
 
 .react-pdf__Page__annotations {
-  display: none !important; /* Скрыть слой аннотаций */
+  display: none !important;
 }
 
 .file-input {
@@ -71,18 +85,18 @@ body, html {
 
 .file-label,
 .file-label-small {
-  background-color: #007aff;
+  background: linear-gradient(145deg, #33d17a, #0b3f26);
   color: white;
   padding: 10px 20px;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.5);
   transition: all 0.2s ease-in-out;
 }
 
 .file-label:hover,
 .file-label-small:hover {
-  background-color: #005bb5;
+  background-color: #1b6e4b;
 }
 
 .file-label-small {
@@ -101,24 +115,26 @@ body, html {
   width: 60px;
   padding: 5px;
   margin: 0 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #33d17a;
   border-radius: 5px;
+  background-color: #0a0f0b;
+  color: #e0f5e9;
 }
 
 .ios-button {
-  background-color: #007aff;
+  background: linear-gradient(145deg, #33d17a, #0b3f26);
   color: white;
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.5);
   transition: all 0.2s ease-in-out;
 }
 
 .ios-button:hover {
-  background-color: #005bb5;
+  background-color: #1b6e4b;
 }
 
 .range-container {
@@ -129,18 +145,21 @@ body, html {
 
 .speed-range {
   margin-right: 10px;
+  background-color: #0c1a12;
+  color: #e0f5e9;
 }
 
 .word-display {
   font-size: 32px;
   font-weight: bold;
-  color: #333;
+  color: #33d17a;
   margin-top: 20px;
 }
 
 @media (max-width: 768px) {
   .pdf-container {
-    height: 100%; /* На мобильных устройствах тоже занимаем всю высоту */
+    width: 90%; /* Для мобильных устройств контейнер будет занимать больше ширины */
+    height: 60vh; /* Высота контейнера станет меньше на мобильных устройствах */
   }
 
   .word-display {
@@ -165,7 +184,7 @@ body, html {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(10, 15, 11, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -173,21 +192,23 @@ body, html {
 }
 
 .modal-content {
-  background-color: white;
+  background: linear-gradient(145deg, #0b3f26, #1c6e4b);
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.5);
   text-align: center;
   position: relative;
 }
 
 .modal-content h2 {
   margin-bottom: 20px;
+  color: #e0f5e9;
 }
 
 .modal-content .ios-button {
   font-size: 18px;
   padding: 10px 30px;
+  background: linear-gradient(145deg, #33d17a, #0b3f26);
 }
 
 /* Стиль для контейнера кнопки закрытия */
@@ -197,4 +218,6 @@ body, html {
 
 .close-button {
   font-size: 16px;
+  background: linear-gradient(145deg, #33d17a, #0b3f26);
+  color: white;
 }
