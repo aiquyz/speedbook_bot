@@ -8,13 +8,15 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 function App() {
   const [file, setFile] = useState(null); // Для хранения загруженного PDF
   const [textArray, setTextArray] = useState([]); // Для хранения массива слов
-  const [isTextLoaded, setIsTextLoaded] = useState(false); // Флаг для отображения кнопки "Старт"
+  const [isTextLoaded, setIsTextLoaded] = useState(false); // Флаг для отображения текста
   const [speed, setSpeed] = useState(100); // Скорость (слов в минуту)
   const [currentWordIndex, setCurrentWordIndex] = useState(0); // Индекс текущего слова
   const [isReading, setIsReading] = useState(false); // Флаг чтения
   const [pageNumber, setPageNumber] = useState(1); // Текущий номер страницы
   const [numPages, setNumPages] = useState(null); // Общее количество страниц
   const [selectedPage, setSelectedPage] = useState(null); // Выбранная страница для конвертации
+  const [bookTitle, setBookTitle] = useState(''); // Название книги
+  const [showModal, setShowModal] = useState(false); // Флаг для модального окна
 
   // Функция для загрузки PDF файла
   function onFileChange(event) {
@@ -24,6 +26,7 @@ function App() {
       setPageNumber(1); // Сбрасываем на первую страницу
       setSelectedPage(null); // Сбрасываем выбранную страницу
       setIsTextLoaded(false); // Сбрасываем флаг загрузки текста
+      setBookTitle(file.name); // Устанавливаем название книги
     }
   }
 
@@ -45,6 +48,7 @@ function App() {
       setTextArray(wordsArray);
       setCurrentWordIndex(0);
       setIsTextLoaded(true);
+      setShowModal(true); // Показать модальное окно после конвертации текста
     } catch (error) {
       console.error("Error extracting text from PDF: ", error);
     }
@@ -83,18 +87,30 @@ function App() {
 
   return (
     <div className="App">
+      {/* Header */}
       <header className="App-header">
-        <input type="file" accept="application/pdf" onChange={onFileChange} />
+        <h1>{bookTitle || "Choose a book"}</h1>
+      </header>
+
+      {/* Main content for PDF display */}
+      <main className="App-main">
+        {!file && (
+          <label className="file-label ios-button">
+            Select PDF File
+            <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
+          </label>
+        )}
         {file && (
           <>
-            {/* Отображение текущей страницы PDF с помощью react-pdf */}
-            <Document
-              file={file}
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
-              <Page pageNumber={pageNumber} />
-            </Document>
-            <div>
+            <div className="pdf-container">
+              <Document
+                file={file}
+                onLoadSuccess={onDocumentLoadSuccess}
+              >
+                <Page pageNumber={pageNumber} />
+              </Document>
+            </div>
+            <div className="controls">
               <label>Go to page: </label>
               <input
                 type="number"
@@ -102,43 +118,75 @@ function App() {
                 max={numPages}
                 value={pageNumber}
                 onChange={(e) => setPageNumber(parseInt(e.target.value) || 1)}
+                className="page-input"
               />
-              <button onClick={() => setSelectedPage(pageNumber)}>
+              <button onClick={() => setSelectedPage(pageNumber)} className="ios-button">
                 Select Page
               </button>
             </div>
           </>
         )}
+      </main>
+
+      {/* Footer with controls */}
+      <footer className="App-footer">
+        {file && (
+          <label className="file-label-small ios-button">
+            Select another file
+            <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
+          </label>
+        )}
         {selectedPage && (
           <>
-            <button onClick={() => extractTextFromSelectedPage(file, selectedPage)}>
+            <button onClick={() => extractTextFromSelectedPage(file, selectedPage)} className="ios-button">
               Convert text from page {selectedPage}
             </button>
           </>
         )}
-        {isTextLoaded && (
-          <>
-            <div>
-              <input
-                type="range"
-                min="10"
-                max="300"
-                value={speed}
-                onChange={(e) => setSpeed(parseInt(e.target.value))}
-              />
-              <label>Words per minute: {speed}</label>
-            </div>
-            {!isReading ? (
-              <button onClick={startReading}>Start Reading</button>
-            ) : (
-              <button onClick={stopReading}>Stop Reading</button>
+      </footer>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Text from Page {selectedPage}</h2>
+            {isTextLoaded && (
+              <>
+                {!isReading ? (
+                  <button onClick={startReading} className="ios-button">
+                    Start
+                  </button>
+                ) : (
+                  <button onClick={stopReading} className="ios-button">
+                    Stop
+                  </button>
+                )}
+                {isReading && textArray[currentWordIndex] && (
+                  <h1 className="word-display">{textArray[currentWordIndex]}</h1>
+                )}
+                <div className="range-container">
+                  <label htmlFor="speed-range">Speed: {speed} WPM</label>
+                  <input
+                    type="range"
+                    id="speed-range"
+                    min="50"
+                    max="400"
+                    value={speed}
+                    onChange={(e) => setSpeed(e.target.value)}
+                    className="speed-range"
+                  />
+                </div>
+                {/* Перемещаем кнопку закрытия в самый низ модального окна */}
+                <div className="close-button-container">
+                  <button onClick={() => setShowModal(false)} className="ios-button close-button">
+                    Close
+                  </button>
+                </div>
+              </>
             )}
-          </>
-        )}
-        {isReading && textArray[currentWordIndex] && (
-          <h1>{textArray[currentWordIndex]}</h1>
-        )}
-      </header>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
