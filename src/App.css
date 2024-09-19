@@ -154,8 +154,60 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
+  flex-direction: column;
+}
+
+.speed-range {
+  width: 300px; /* Ширина ползунка */
+  height: 15px;
+  -webkit-appearance: none;
+  background: #111;
+  outline: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
   margin-top: 10px;
 }
+
+.speed-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #00fd0a;
+  cursor: pointer;
+  border: 4px solid #333;
+  box-shadow: -407px 0 0 400px #00fd0a;
+}
+
+.speed-range::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #00fd0a;
+  cursor: pointer;
+  border: 4px solid #333;
+  box-shadow: -407px 0 0 400px #00fd0a;
+}
+
+.speed-range::-ms-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #00fd0a;
+  cursor: pointer;
+  border: 4px solid #333;
+  box-shadow: -407px 0 0 400px #00fd0a;
+}
+
+.range-value {
+  font-size: 2rem;
+  color: #999;
+  margin-top: 10px;
+  text-align: center;
+}
+
 
 .word-display {
   font-size: 24px; /* Уменьшаем для мобильных */

@@ -167,7 +167,7 @@ function App() {
                       <h1 className="word-display">{textArray[currentWordIndex]}</h1>
                     )}
                     <div className="range-container">
-                      <label htmlFor="speed-range">Speed: {speed} WPM</label>
+                      <span className="range-value">{speed} WPM</span>
                       <input
                         type="range"
                         id="speed-range"
@@ -178,6 +178,7 @@ function App() {
                         className="speed-range"
                       />
                     </div>
+
                     <button onClick={stopReading} className="ios-button">
                       Stop
                     </button>
