@@ -1,37 +1,43 @@
+/* Основные настройки для тела и HTML */
 body, html {
   margin: 0;
   padding: 0;
+  width: 100%;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background-color: #0a0f0b;
-  color: #e0f5e9;
+  background-color: #0a0f0b; /* Темный фон для комфортного чтения */
+  color: #e0f5e9; /* Цвет текста */
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Избежим ненужного прокручивания */
+  overflow: hidden; /* Избежать ненужного прокручивания */
 }
 
+/* Стилизация главного контейнера */
 .App {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh; /* Использование всей доступной высоты */
+  width: 100vw; /* Использование всей доступной ширины */
   background: linear-gradient(145deg, #0c1a12, #172623);
   color: #e0f5e9;
   overflow: hidden; /* Полная адаптация под экран */
 }
 
+/* Заголовок приложения */
 .App-header {
   background-color: #0c1a12;
-  padding: 10px; /* Меньше отступов для экономии пространства */
+  padding: 10px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2);
   color: #e0f5e9;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px; /* Уменьшаем высоту */
+  height: 60px; /* Уменьшение высоты */
 }
 
+/* Главное содержимое для отображения PDF */
 .App-main {
   flex: 1;
   display: flex;
@@ -42,6 +48,7 @@ body, html {
   padding: 10px; /* Оптимизация отступов для мобильных */
 }
 
+/* Футер с элементами управления */
 .App-footer {
   display: flex;
   justify-content: space-between;
@@ -49,74 +56,61 @@ body, html {
   padding: 10px;
   background-color: #0c1a12;
   box-shadow: 0 -4px 10px rgba(0, 255, 0, 0.2);
-  height: 60px; /* Уменьшаем высоту */
+  height: 60px; /* Уменьшение высоты */
 }
 
+/* Контейнер для PDF */
 .pdf-container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   background-color: #0a0f0b;
-  width: 100%; /* Занимаем всю ширину экрана */
-  height: 70vh; /* Высота 70% для PDF */
-  padding: 10px; /* Меньше отступов */
-  overflow-y: auto;
-  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2);
-}
-
-.react-pdf__Page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%; 
-  height: auto;
-  object-fit: contain;
+  width: 90%; /* Полная ширина */
+  height: 70vh; /* Процент высоты для PDF */
+  padding: 10px;
+  overflow-y: auto; /* Прокрутка при необходимости */
 }
 
 .react-pdf__Page__canvas {
   width: 100% !important; 
-  height: auto !important;
+  height: 40% !important;
   object-fit: contain !important;
 }
 
-/* Скрытие текстового слоя и слоя аннотаций */
-.react-pdf__Page__textContent {
+/* Скрытие текстового слоя и слоя аннотаций в PDF */
+.react-pdf__Page__textContent, .react-pdf__Page__annotations {
   display: none !important;
 }
 
-.react-pdf__Page__annotations {
-  display: none !important;
-}
-
+/* Стилизация ввода файла и меток */
 .file-input {
-  display: none;
+  display: none; /* Скрытие стандартного input */
 }
 
-.file-label,
-.file-label-small {
+.file-label, .file-label-small {
   display: flex;
   justify-content: center;
   align-items: center;
   background: linear-gradient(145deg, #33d17a, #0b3f26);
   color: white;
-  padding: 8px 16px; /* Оптимизация размера для мобильных */
-  border-radius: 8px; /* Мягкие углы для мобильных устройств */
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
   transition: all 0.2s ease-in-out;
 }
 
-.file-label:hover,
-.file-label-small:hover {
-  background-color: #1b6e4b;
+.file-label:hover, .file-label-small:hover {
+  background-color: #1b6e4b; /* Подсветка при наведении */
 }
 
 .file-label-small {
-  padding: 5px 10px;
+  padding: 5px 10px; /* Меньше для мобильных */
   font-size: 12px;
 }
 
+/* Стилизация элементов управления */
 .controls {
   display: flex;
   justify-content: center;
@@ -125,7 +119,7 @@ body, html {
 }
 
 .page-input {
-  width: 50px;
+  width: 50px; /* Ширина поля ввода */
   padding: 5px;
   margin: 0 8px;
   border: 1px solid #33d17a;
@@ -139,7 +133,7 @@ body, html {
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px; /* Оптимизированный размер кнопки */
+  padding: 8px 16px;
   font-size: 14px;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
@@ -150,6 +144,7 @@ body, html {
   background-color: #1b6e4b;
 }
 
+/* Стилизация ползунка скорости */
 .range-container {
   display: flex;
   justify-content: center;
@@ -158,8 +153,15 @@ body, html {
   flex-direction: column;
 }
 
+.range-value {
+  font-size: 2rem;
+  color: #999;
+  margin-top: 10px;
+  text-align: center;
+}
+
 .speed-range {
-  width: 300px; /* Ширина ползунка */
+  width: 300px;
   height: 15px;
   -webkit-appearance: none;
   background: #111;
@@ -170,7 +172,7 @@ body, html {
   margin-top: 10px;
 }
 
-.speed-range::-webkit-slider-thumb {
+.speed-range::-webkit-slider-thumb, .speed-range::-moz-range-thumb, .speed-range::-ms-thumb {
   -webkit-appearance: none;
   width: 15px;
   height: 15px;
@@ -178,65 +180,21 @@ body, html {
   background: #00fd0a;
   cursor: pointer;
   border: 4px solid #333;
-  box-shadow: -407px 0 0 400px #00fd0a;
-}
-
-.speed-range::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #00fd0a;
-  cursor: pointer;
-  border: 4px solid #333;
-  box-shadow: -407px 0 0 400px #00fd0a;
-}
-
-.speed-range::-ms-thumb {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #00fd0a;
-  cursor: pointer;
-  border: 4px solid #333;
-  box-shadow: -407px 0 0 400px #00fd0a;
-}
-
-.range-value {
-  font-size: 2rem;
-  color: #999;
-  margin-top: 10px;
-  text-align: center;
-}
-
-
-.word-display {
-  font-size: 24px; /* Уменьшаем для мобильных */
-  font-weight: bold;
-  color: #33d17a;
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  box-shadow: -407px 0 0 400px #00fd0a; /* Эффект заполнения */
 }
 
 @media (max-width: 768px) {
   .pdf-container {
-    width: 100%; 
     height: 60vh;
   }
 
-  .word-display {
-    font-size: 22px;
-  }
-
-  .ios-button {
-    padding: 6px 12px;
-    font-size: 12px;
+  .word-display, .ios-button {
+    font-size: smaller; /* Уменьшенный размер для мобильных */
   }
 
   .file-label-small {
-    padding: 4px 6px;
-    font-size: 10px;
+    padding: 4px 6px; /* Меньше для мобильных */
+    font-size: smaller;
   }
 }
 
@@ -255,7 +213,7 @@ body, html {
 
 .modal-content {
   background: linear-gradient(145deg, #0b3f26, #1c6e4b);
-  padding: 20px; /* Меньше отступов */
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
   text-align: center;
