@@ -2,40 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import './App.css';
 
-// Указываем путь к воркеру для PDF.js
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 function App() {
-  const [file, setFile] = useState(null); // Для хранения загруженного PDF
-  const [textArray, setTextArray] = useState([]); // Для хранения массива слов
-  const [isTextLoaded, setIsTextLoaded] = useState(false); // Флаг для отображения текста
-  const [speed, setSpeed] = useState(100); // Скорость (слов в минуту)
-  const [currentWordIndex, setCurrentWordIndex] = useState(0); // Индекс текущего слова
-  const [isReading, setIsReading] = useState(false); // Флаг чтения
-  const [pageNumber, setPageNumber] = useState(1); // Текущий номер страницы
-  const [numPages, setNumPages] = useState(null); // Общее количество страниц
-  const [selectedPage, setSelectedPage] = useState(null); // Выбранная страница для конвертации
-  const [bookTitle, setBookTitle] = useState(''); // Название книги
-  const [showModal, setShowModal] = useState(false); // Флаг для модального окна
+  const [file, setFile] = useState(null);
+  const [textArray, setTextArray] = useState([]);
+  const [isTextLoaded, setIsTextLoaded] = useState(false);
+  const [speed, setSpeed] = useState(100);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [isReading, setIsReading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [numPages, setNumPages] = useState(null);
+  const [bookTitle, setBookTitle] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
-  // Функция для загрузки PDF файла
   function onFileChange(event) {
     const file = event.target.files[0];
     if (file) {
-      setFile(file); // Сохраняем выбранный файл
-      setPageNumber(1); // Сбрасываем на первую страницу
-      setSelectedPage(null); // Сбрасываем выбранную страницу
-      setIsTextLoaded(false); // Сбрасываем флаг загрузки текста
-      setBookTitle(file.name); // Устанавливаем название книги
+      setFile(file);
+      setPageNumber(1);
+      setIsTextLoaded(false);
+      setBookTitle(file.name);
     }
   }
 
-  // Функция обработки загрузки документа PDF
   function onDocumentLoadSuccess(pdf) {
-    setNumPages(pdf.numPages); // Устанавливаем количество страниц
+    setNumPages(pdf.numPages);
   }
 
-  // Извлечение текста с выбранной страницы с использованием pdfjs
   async function extractTextFromSelectedPage(pdfFile, pageNum) {
     try {
       const loadingTask = pdfjs.getDocument({ url: URL.createObjectURL(pdfFile) });
@@ -48,23 +42,20 @@ function App() {
       setTextArray(wordsArray);
       setCurrentWordIndex(0);
       setIsTextLoaded(true);
-      setShowModal(true); // Показать модальное окно после конвертации текста
+      setShowModal(true);
     } catch (error) {
       console.error("Error extracting text from PDF: ", error);
     }
   }
 
-  // Запуск процесса показа слов
   function startReading() {
     setIsReading(true);
   }
 
-  // Остановка показа слов
   function stopReading() {
     setIsReading(false);
   }
 
-  // Обновление индекса текущего слова
   useEffect(() => {
     let interval = null;
     if (isReading) {
@@ -87,31 +78,40 @@ function App() {
 
   return (
     <div className="App">
-      {/* Header */}
       <header className="App-header">
         <h1>{bookTitle || "Choose a book"}</h1>
       </header>
 
-      {/* Main content for PDF display */}
       <main className="App-main">
+        {file && (
+          <div className="pdf-container">
+            <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+              <Page pageNumber={pageNumber} />
+            </Document>
+          </div>
+        )}
+      </main>
+
+      <footer className="App-footer tab-bar">
         {!file && (
-          <label className="file-label ios-button">
-            Select PDF File
+          <label className="tab-bar-item">
+            <i className="fas fa-file-upload"></i>
             <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
           </label>
         )}
         {file && (
           <>
-            <div className="pdf-container">
-              <Document
-                file={file}
-                onLoadSuccess={onDocumentLoadSuccess}
+            <label className="tab-bar-item">
+              <i className="fas fa-file-alt"></i>
+              <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
+            </label>
+            <div className="tab-bar-item increment-decrement-buttons">
+              <button
+                className="decrement-button"
+                onClick={() => setPageNumber((prevPage) => (prevPage > 1 ? prevPage - 1 : 1))}
               >
-                <Page pageNumber={pageNumber} />
-              </Document>
-            </div>
-            <div className="controls">
-              <label>Go to page: </label>
+                -
+              </button>
               <input
                 type="number"
                 min="1"
@@ -120,32 +120,21 @@ function App() {
                 onChange={(e) => setPageNumber(parseInt(e.target.value) || 1)}
                 className="page-input"
               />
-              <button onClick={() => setSelectedPage(pageNumber)} className="ios-button">
-                Select Page
+              <button
+                className="increment-button"
+                onClick={() => setPageNumber((prevPage) => (prevPage < numPages ? prevPage + 1 : numPages))}
+              >
+                +
               </button>
             </div>
-          </>
-        )}
-      </main>
-
-      {/* Footer with controls */}
-      <footer className="App-footer">
-        {file && (
-          <label className="file-label-small ios-button">
-            Select another file
-            <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
-          </label>
-        )}
-        {selectedPage && (
-          <>
-            <button onClick={() => extractTextFromSelectedPage(file, selectedPage)} className="ios-button">
-              Convert text from page {selectedPage}
+            <button onClick={() => extractTextFromSelectedPage(file, pageNumber)} className="tab-bar-item">
+              <i className="fas fa-sync-alt"></i>
             </button>
           </>
         )}
       </footer>
 
-      {/* Modal */}
+
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -155,10 +144,10 @@ function App() {
                 {!isReading ? (
                   <>
                     <button onClick={startReading} className="ios-button">
-                      Start
+                      <i className="fas fa-play"></i>
                     </button>
                     <button onClick={() => setShowModal(false)} className="ios-button close-button">
-                      Close
+                      <i className="fas fa-times"></i>
                     </button>
                   </>
                 ) : (
@@ -180,7 +169,7 @@ function App() {
                     </div>
 
                     <button onClick={stopReading} className="ios-button">
-                      Stop
+                      <i className="fas fa-stop"></i>
                     </button>
                   </>
                 )}

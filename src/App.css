@@ -5,27 +5,43 @@ body, html {
   width: 100%;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background-color: #0a0f0b; /* Темный фон для комфортного чтения */
-  color: #e0f5e9; /* Цвет текста */
+  background-color: #0a0f0b;
+  color: #e0f5e9;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Избежать ненужного прокручивания */
+  overflow: hidden;
+}
+
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  /* отображаем курсор в виде руки при наведении; некоторые
+  считают, что необходимо оставлять стрелочный вид для кнопок */
+  cursor: pointer;
 }
 
 /* Стилизация главного контейнера */
 .App {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Использование всей доступной высоты */
-  width: 100vw; /* Использование всей доступной ширины */
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
   background: linear-gradient(145deg, #0c1a12, #172623);
   color: #e0f5e9;
-  overflow: hidden; /* Полная адаптация под экран */
+  overflow: hidden;
+  justify-content: space-between; /* Добавляем равное распределение по вертикали */
 }
 
 /* Заголовок приложения */
 .App-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
   background-color: #0c1a12;
   padding: 10px;
   text-align: center;
@@ -34,7 +50,16 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px; /* Уменьшение высоты */
+  height: 30px;
+}
+
+/* Ограничение ширины и перенос для заголовка в header */
+.App-header h1 {
+  max-width: 90%; /* Заголовок не будет занимать всю ширину экрана */
+  overflow: hidden;
+  white-space: nowrap; /* Отключаем перенос текста по умолчанию */
+  text-overflow: ellipsis; /* Добавляем троеточие для слишком длинных заголовков */
+  font-size: 1.5rem;
 }
 
 /* Главное содержимое для отображения PDF */
@@ -45,19 +70,85 @@ body, html {
   justify-content: center;
   align-items: center;
   background-color: #0a0f0b;
-  padding: 10px; /* Оптимизация отступов для мобильных */
+  padding: 10px;
+  width: 100%;
 }
 
-/* Футер с элементами управления */
+/* Футер в стиле таббара */
 .App-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 10px;
   background-color: #0c1a12;
   box-shadow: 0 -4px 10px rgba(0, 255, 0, 0.2);
-  height: 60px; /* Уменьшение высоты */
+  height: 80px;
 }
+
+.tab-bar-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.tab-bar-item i {
+  font-size: 24px;
+  color: #33d17a;
+}
+
+.tab-bar-item span {
+  margin-top: 5px;
+  color: #e0f5e9;
+}
+
+/* Убираем стрелки на input number */
+.page-input {
+  width: 50px;
+  padding: 5px;
+  margin: 0 8px;
+  border: 1px solid #33d17a;
+  border-radius: 5px;
+  background-color: #0a0f0b;
+  color: #e0f5e9;
+  text-align: center;
+  -moz-appearance: textfield; /* Для Firefox */
+}
+
+.page-input::-webkit-outer-spin-button,
+.page-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Кнопки инкремента и декремента */
+.increment-decrement-buttons {
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  gap: 10px;
+}
+
+.increment-button, .decrement-button {
+  background-color: #0c1a12;
+  color: #33d17a;
+  border: 1px solid #33d17a;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.increment-button:hover, .decrement-button:hover {
+  background-color: #33d17a;
+  color: #0a0f0b;
+}
+
 
 /* Контейнер для PDF */
 .pdf-container {
@@ -66,10 +157,10 @@ body, html {
   align-items: center;
   flex-direction: column;
   background-color: #0a0f0b;
-  width: 90%; /* Полная ширина */
-  height: 70vh; /* Процент высоты для PDF */
+  width: 90%;
+  height: 70vh;
   padding: 10px;
-  overflow-y: auto; /* Прокрутка при необходимости */
+  overflow-y: auto;
 }
 
 .react-pdf__Page__canvas {
@@ -78,73 +169,46 @@ body, html {
   object-fit: contain !important;
 }
 
-/* Скрытие текстового слоя и слоя аннотаций в PDF */
-.react-pdf__Page__textContent, .react-pdf__Page__annotations {
+.react-pdf__Page__textContent, .react-pdf__Page__annotations, .hiddenCanvasElement {
   display: none !important;
 }
 
-/* Стилизация ввода файла и меток */
+/* Ввод файла */
 .file-input {
-  display: none; /* Скрытие стандартного input */
+  display: none;
 }
 
-.file-label, .file-label-small {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(145deg, #33d17a, #0b3f26);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
-  transition: all 0.2s ease-in-out;
-}
-
-.file-label:hover, .file-label-small:hover {
-  background-color: #1b6e4b; /* Подсветка при наведении */
-}
-
-.file-label-small {
-  padding: 5px 10px; /* Меньше для мобильных */
-  font-size: 12px;
-}
-
-/* Стилизация элементов управления */
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-}
-
+/* Поле для ввода страницы */
 .page-input {
-  width: 50px; /* Ширина поля ввода */
+  width: 50px;
   padding: 5px;
   margin: 0 8px;
   border: 1px solid #33d17a;
   border-radius: 5px;
   background-color: #0a0f0b;
   color: #e0f5e9;
+  text-align: center;
 }
 
+/* Стили кнопок */
 .ios-button {
-  background: linear-gradient(145deg, #33d17a, #0b3f26);
+  background: transparent;
   color: white;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
+  box-shadow: none; /* Убираем тени */
   transition: all 0.2s ease-in-out;
 }
 
 .ios-button:hover {
-  background-color: #1b6e4b;
+  background-color: transparent; /* Фон остается прозрачным при наведении */
+  color: #33d17a; /* Меняем цвет текста при наведении */
 }
 
-/* Стилизация ползунка скорости */
+/* Ползунок скорости */
 .range-container {
   display: flex;
   justify-content: center;
@@ -180,24 +244,10 @@ body, html {
   background: #00fd0a;
   cursor: pointer;
   border: 4px solid #333;
-  box-shadow: -407px 0 0 400px #00fd0a; /* Эффект заполнения */
+  box-shadow: -407px 0 0 400px #00fd0a;
 }
 
-@media (max-width: 768px) {
-  .pdf-container {
-    height: 60vh;
-  }
-
-  .word-display, .ios-button {
-    font-size: smaller; /* Уменьшенный размер для мобильных */
-  }
-
-  .file-label-small {
-    padding: 4px 6px; /* Меньше для мобильных */
-    font-size: smaller;
-  }
-}
-
+/* Модальное окно */
 .modal {
   position: fixed;
   top: 0;
@@ -214,6 +264,8 @@ body, html {
 .modal-content {
   background: linear-gradient(145deg, #0b3f26, #1c6e4b);
   padding: 20px;
+  width: 80%;
+  max-height: 40%;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
   text-align: center;
@@ -223,10 +275,21 @@ body, html {
   gap: 20px;
 }
 
+.modal-content h1 {
+  max-width: 90%; /* Заголовок в модальном окне не будет занимать всю ширину */
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 2rem;
+}
+
+/* Ограничение ширины и перенос для заголовка в modal */
 .modal-content h2 {
-  margin-bottom: 10px;
-  color: #e0f5e9;
-  font-size: 18px;
+  max-width: 90%; /* Заголовок в модальном окне не будет занимать всю ширину */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 1.2rem;
 }
 
 .modal-content .ios-button {
@@ -249,4 +312,24 @@ body, html {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .pdf-container {
+    height: 60vh;
+  }
+
+  .word-display, .ios-button {
+    font-size: smaller;
+    background: transparent;
+  }
+
+  .tab-bar-item i {
+    font-size: 20px; /* Уменьшение иконок для мобильных */
+  }
+
+  .tab-bar-item span {
+    font-size: 10px; /* Уменьшение текста под иконками */
+  }
 }
