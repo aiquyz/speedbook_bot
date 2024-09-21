@@ -92,7 +92,7 @@ function App() {
       <header className="App-header">
         <h1>{bookTitle || "Choose a book"}</h1>
         <button onClick={() => setIsDarkMode((prev) => !prev)} className="theme-toggle">
-          {isDarkMode ? <img src="/sun.svg" alt="Upload Icon" className="upload-icon" /> : <img src="/moon.svg" alt="Upload Icon" className="upload-icon" />}
+          {isDarkMode ? <img src={`${process.env.PUBLIC_URL}/sun.svg`} alt="Upload Icon" className="upload-icon" /> : <img src={`${process.env.PUBLIC_URL}/moon.svg`} alt="Upload Icon" className="upload-icon" />}
         </button>
       </header>
 
@@ -109,14 +109,14 @@ function App() {
       <footer className="App-footer tab-bar">
         {!file && (
           <label className="tab-bar-item">
-            <img src="/upload.svg" alt="Upload Icon" className="upload-icon" />
+            <img src={`${process.env.PUBLIC_URL}/upload.svg`} alt="Upload Icon" className="upload-icon" />
             <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
           </label>
         )}
         {file && (
           <>
             <label className="tab-bar-item">
-              <img src="/upload.svg" alt="Upload Icon" className="upload-icon" />
+            <img src={`${process.env.PUBLIC_URL}/upload.svg`} className="upload-icon" />
               <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
             </label>
             <div className="tab-bar-item increment-decrement-buttons">
@@ -124,7 +124,7 @@ function App() {
                 className="decrement-button"
                 onClick={() => setPageNumber((prevPage) => (prevPage > 1 ? prevPage - 1 : 1))}
               >
-                <img src="/back.svg" alt="Upload Icon" className="upload-icon" />
+                <img src={`${process.env.PUBLIC_URL}/back.svg`} alt="Upload Icon" className="upload-icon" />
               </button>
               <input
                 type="number"
@@ -138,11 +138,11 @@ function App() {
                 className="increment-button"
                 onClick={() => setPageNumber((prevPage) => (prevPage < numPages ? prevPage + 1 : numPages))}
               >
-                <img src="/up.svg" alt="Upload Icon" className="upload-icon" />
+                <img src={`${process.env.PUBLIC_URL}/up.svg`} className="upload-icon" />
               </button>
             </div>
             <button onClick={() => extractTextFromSelectedPage(file, pageNumber)} className="tab-bar-item">
-              <img src="/read.svg" alt="Upload Icon" className="upload-icon" />
+            <img src={`${process.env.PUBLIC_URL}/read.svg`} alt="Upload Icon" className="upload-icon" />
             </button>
           </>
         )}
@@ -157,10 +157,10 @@ function App() {
                 {!isReading ? (
                   <>
                     <button onClick={startReading} className="ios-button">
-                      <img src="/read.svg" alt="Upload Icon" className="upload-icon" />
+                    <img src={`${process.env.PUBLIC_URL}/read.svg`} alt="Upload Icon" className="upload-icon" />
                     </button>
                     <button onClick={() => setShowModal(false)} className="ios-button close-button">
-                      <img src="/close.svg" alt="Upload Icon" className="upload-icon" />
+                    <img src={`${process.env.PUBLIC_URL}/close.svg`} alt="Upload Icon" className="upload-icon" />
                     </button>
                   </>
                 ) : (
@@ -182,7 +182,7 @@ function App() {
                     </div>
 
                     <button onClick={stopReading} className="ios-button">
-                      <img src="/close.svg" alt="Upload Icon" className="upload-icon" />
+                    <img src={`${process.env.PUBLIC_URL}/close.svg`} alt="Upload Icon" className="upload-icon" />
                     </button>
                   </>
                 )}
