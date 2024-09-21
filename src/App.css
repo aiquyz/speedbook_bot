@@ -1,3 +1,35 @@
+:root {
+  /* Дневная тема */
+  --text-color-main: #333333;
+  --text-color-secondary: #666666;
+  --highlight-color: #16a085;
+  --input-border-color: #cccccc;
+  --button-border-color: #16a085;
+  --modal-background: rgba(34, 10, 10, 0.19);
+  --modal-shadow: rgba(0, 0, 0, 0.1);
+  --range-track-color: rgba(0, 0, 0, 0.6);
+  --range-thumb-color: black;
+  --background-color: rgba(255, 255, 255, 1); /* Белый фон для дневной темы */
+  --pdf-bg-color: #e0e0e0; /* Серый фон для PDF */
+  --invert: invert(0)
+}
+
+body.dark-theme {
+  /* Ночная тема */
+  --text-color-main: #f0f0f0;
+  --text-color-secondary: #bbbbbb;
+  --highlight-color: #ffcc00;
+  --input-border-color: #555555;
+  --button-border-color: #ffcc00;
+  --modal-background: rgba(255, 255, 255, 0.1);
+  --modal-shadow: rgba(255, 255, 255, 0.5);
+  --range-track-color: rgba(255, 255, 255, 0.6);
+  --range-thumb-color: #ffffff;
+  --background-color: rgba(0, 0, 0, 1); /* Черный фон для ночной темы */
+  --pdf-bg-color: #333333; /* Тёмный фон для PDF */
+  --invert: invert(100%)
+}
+
 body, html {
   margin: 0;
   padding: 0;
@@ -25,6 +57,7 @@ button {
 img{
   height: 24px;
   width: 24px;
+  filter: var(--invert);
 }
 
 /* Стилизация главного контейнера */
@@ -36,6 +69,7 @@ img{
   width: 100vw;
   overflow: hidden;
   justify-content: space-between;
+  background-color: var(--background-color);
 }
 
 /* Заголовок приложения */
@@ -44,9 +78,10 @@ img{
   top: 0;
   width: 100%;
   padding: 10px;
+  padding-inline: 30px;
   text-align: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 30px;
 }
@@ -57,6 +92,14 @@ img{
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 1.5rem;
+  margin: 0 0 0 20px ;
+}
+
+.App-header button {
+  height: 24px;
+  width: 24px;
+  margin: 0 20px 0 0 ;
+ z-index: 999;
 }
 
 /* Главное содержимое */
@@ -107,6 +150,7 @@ img{
   margin: 0 8px;
   font-size: 30px;
   border: 1px solid var(--input-border-color);
+  background-color: var(--background-color);
   border-radius: 5px;
   text-align: center;
   -moz-appearance: textfield;
@@ -127,8 +171,6 @@ img{
 }
 
 .increment-button, .decrement-button {
-  color: var(--highlight-color);
-  border: 1px solid var(--button-border-color);
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
@@ -197,6 +239,7 @@ img{
   align-items: center;
   margin-top: 20px;
   flex-direction: column;
+  filter: var(--invert);
 }
 
 .range-value {
@@ -211,20 +254,19 @@ img{
   appearance: none;
   width: 300px;
   height: 8px; /* Высота трека */
-  background: rgba(0, 0, 0, 0.6); /* Черный цвет трека */
+  background: var(--range-track-color); /* Цвет трека */
   border-radius: 15px; /* Округлые края */
-  /* outline: none; */
   margin-top: 10px;
   cursor: pointer;
 }
 
 /* Стилизация бегунка */
 .speed-range::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Убираем стандартное оформление браузера */
+  -webkit-appearance: none;
   appearance: none;
   width: 16px; /* Ширина бегунка */
   height: 16px; /* Высота бегунка */
-  background: black; /* Цвет бегунка */
+  background: var(--range-thumb-color); /* Цвет бегунка */
   border-radius: 50%; /* Делаем его круглым */
   cursor: pointer;
 }
@@ -233,7 +275,7 @@ img{
 .speed-range::-moz-range-thumb {
   width: 16px;
   height: 16px;
-  background: black;
+  background: var(--range-thumb-color);
   border-radius: 50%;
   cursor: pointer;
 }
@@ -242,21 +284,21 @@ img{
 .speed-range::-ms-thumb {
   width: 16px;
   height: 16px;
-  background: black;
+  background: var(--range-thumb-color);
   border-radius: 50%;
   cursor: pointer;
 }
 
 /* Трек для браузеров Firefox */
 .speed-range::-moz-range-track {
-  background: black;
+  background: var(--range-track-color);
   border-radius: 15px;
   height: 8px;
 }
 
 /* Трек для браузеров Microsoft Edge */
 .speed-range::-ms-track {
-  background: black;
+  background: var(--range-track-color);
   border-radius: 15px;
   height: 8px;
   border-color: transparent; /* Убираем границу */
@@ -272,17 +314,17 @@ img{
   transform: translate(-50%, -50%);
   width: 95vw;
   height: 95vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--background-color);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 
-  background: rgba(34, 10, 10, 0.19);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(2.9px);
--webkit-backdrop-filter: blur(2.9px);
+  background: var(--modal-background);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px var(--modal-shadow);
+  backdrop-filter: blur(12.4px);
+  -webkit-backdrop-filter: blur(12.4px);
 }
 
 .modal-content {
@@ -296,6 +338,7 @@ backdrop-filter: blur(2.9px);
   align-items: center;
   justify-content: space-around;
   gap: 20px;
+  color: red;
 }
 
 .modal-content h1 {
@@ -317,6 +360,7 @@ backdrop-filter: blur(2.9px);
 .modal-content .ios-button {
   font-size: 14px;
   padding: 8px 16px;
+  filter: var(--invert);
 }
 
 .close-button-container {

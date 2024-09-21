@@ -15,6 +15,7 @@ function App() {
   const [numPages, setNumPages] = useState(null);
   const [bookTitle, setBookTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false); // Добавлено состояние для темы
 
   function onFileChange(event) {
     const file = event.target.files[0];
@@ -56,6 +57,7 @@ function App() {
     setIsReading(false);
   }
 
+  // Обновляем отображение слов
   useEffect(() => {
     let interval = null;
     if (isReading) {
@@ -76,10 +78,22 @@ function App() {
     return () => clearInterval(interval);
   }, [isReading, speed, textArray]);
 
+  // Логика для смены темы
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark-theme'); // Используем 'dark-theme', как в CSS
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }, [isDarkMode]);
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>{bookTitle || "Choose a book"}</h1>
+        <button onClick={() => setIsDarkMode((prev) => !prev)} className="theme-toggle">
+          {isDarkMode ? <img src="/sun.svg" alt="Upload Icon" className="upload-icon" /> : <img src="/moon.svg" alt="Upload Icon" className="upload-icon" />}
+        </button>
       </header>
 
       <main className="App-main">
@@ -133,7 +147,6 @@ function App() {
           </>
         )}
       </footer>
-
 
       {showModal && (
         <div className="modal">
