@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/speedbook_bot/static/css/main.124a7d3c.css",
-    "main.js": "/speedbook_bot/static/js/main.919201a1.js",
-    "static/js/453.5f916249.chunk.js": "/speedbook_bot/static/js/453.5f916249.chunk.js",
-    "index.html": "/speedbook_bot/index.html",
-    "main.124a7d3c.css.map": "/speedbook_bot/static/css/main.124a7d3c.css.map",
-    "main.919201a1.js.map": "/speedbook_bot/static/js/main.919201a1.js.map",
-    "453.5f916249.chunk.js.map": "/speedbook_bot/static/js/453.5f916249.chunk.js.map"
+    "main.css": "/speedbook/static/css/main.124a7d3c.css",
+    "main.js": "/speedbook/static/js/main.2a18ecfe.js",
+    "static/js/453.5f916249.chunk.js": "/speedbook/static/js/453.5f916249.chunk.js",
+    "index.html": "/speedbook/index.html",
+    "main.124a7d3c.css.map": "/speedbook/static/css/main.124a7d3c.css.map",
+    "main.2a18ecfe.js.map": "/speedbook/static/js/main.2a18ecfe.js.map",
+    "453.5f916249.chunk.js.map": "/speedbook/static/js/453.5f916249.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.124a7d3c.css",
-    "static/js/main.919201a1.js"
+    "static/js/main.2a18ecfe.js"
   ]
 }
