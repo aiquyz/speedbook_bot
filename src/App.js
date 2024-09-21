@@ -95,14 +95,14 @@ function App() {
       <footer className="App-footer tab-bar">
         {!file && (
           <label className="tab-bar-item">
-            <i className="fas fa-file-upload"></i>
+            <img src="/upload.svg" alt="Upload Icon" className="upload-icon" />
             <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
           </label>
         )}
         {file && (
           <>
             <label className="tab-bar-item">
-              <i className="fas fa-file-alt"></i>
+              <img src="/upload.svg" alt="Upload Icon" className="upload-icon" />
               <input type="file" accept="application/pdf" onChange={onFileChange} className="file-input" />
             </label>
             <div className="tab-bar-item increment-decrement-buttons">
@@ -110,7 +110,7 @@ function App() {
                 className="decrement-button"
                 onClick={() => setPageNumber((prevPage) => (prevPage > 1 ? prevPage - 1 : 1))}
               >
-                -
+                <img src="/back.svg" alt="Upload Icon" className="upload-icon" />
               </button>
               <input
                 type="number"
@@ -124,11 +124,11 @@ function App() {
                 className="increment-button"
                 onClick={() => setPageNumber((prevPage) => (prevPage < numPages ? prevPage + 1 : numPages))}
               >
-                +
+                <img src="/up.svg" alt="Upload Icon" className="upload-icon" />
               </button>
             </div>
             <button onClick={() => extractTextFromSelectedPage(file, pageNumber)} className="tab-bar-item">
-              <i className="fas fa-sync-alt"></i>
+              <img src="/read.svg" alt="Upload Icon" className="upload-icon" />
             </button>
           </>
         )}
@@ -144,10 +144,10 @@ function App() {
                 {!isReading ? (
                   <>
                     <button onClick={startReading} className="ios-button">
-                      <i className="fas fa-play"></i>
+                      <img src="/read.svg" alt="Upload Icon" className="upload-icon" />
                     </button>
                     <button onClick={() => setShowModal(false)} className="ios-button close-button">
-                      <i className="fas fa-times"></i>
+                      <img src="/close.svg" alt="Upload Icon" className="upload-icon" />
                     </button>
                   </>
                 ) : (
@@ -169,7 +169,7 @@ function App() {
                     </div>
 
                     <button onClick={stopReading} className="ios-button">
-                      <i className="fas fa-stop"></i>
+                      <img src="/close.svg" alt="Upload Icon" className="upload-icon" />
                     </button>
                   </>
                 )}
